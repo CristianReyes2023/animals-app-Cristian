@@ -1,0 +1,438 @@
+{
+	// Place your global snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"RepoGenerico": {
+		"prefix": "GenerateGenericRepositoryInRepositories",
+		"body": [
+			"using System.Linq.Expressions;",
+			"using Core.Entities;",
+			"using Core.Interfaces;",
+			"using Infrastructure.Data;",
+			"using Microsoft.EntityFrameworkCore;",
+			"",
+			"namespace Infrastructure.Repositories;",
+			"",
+			"public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity",
+			"{",
+			"\tprivate readonly ${ContextField} _context;",
+			"",
+			"\tpublic GenericRepository(${ContextField} context)",
+			"\t{",
+			"\t\t_context = context;",
+			"\t}",
+			"",
+			"\tpublic virtual void Add(T entity)",
+			"\t{",
+			"\t\t_context.Set<T>().Add(entity);",
+			"\t}",
+			"",
+			"\tpublic virtual void AddRange(IEnumerable<T> entities)",
+			"\t{",
+			"\t\t_context.Set<T>().AddRange(entities);",
+			"\t}",
+			"",
+			"\tpublic virtual IEnumerable<T> Find(Expression<Func<T, bool>> expression)",
+			"\t{",
+			"\t\treturn _context.Set<T>().Where(expression);",
+			"\t}",
+			"",
+			"\tpublic virtual async Task<IEnumerable<T>> GetAllAsync()",
+			"\t{",
+			"\t\treturn await _context.Set<T>().ToListAsync();",
+			"\t}",
+			"",
+			"\tpublic virtual async Task<T> GetByIdAsync(int id)",
+			"\t{",
+			"\t\treturn await _context.Set<T>().FindAsync(id);",
+			"\t}",
+			"",
+			"\tpublic virtual Task<T> GetByIdAsync(string id)",
+			"\t{",
+			"\t\tthrow new NotImplementedException();",
+			"\t}",
+			"",
+			"\tpublic virtual void Remove(T entity)",
+			"\t{",
+			"\t\t_context.Set<T>().Remove(entity);",
+			"\t}",
+			"",
+			"\tpublic virtual void RemoveRange(IEnumerable<T> entities)",
+			"\t{",
+			"\t\t_context.Set<T>().RemoveRange(entities);",
+			"\t}",
+			"",
+			"\tpublic virtual void Update(T entity)",
+			"\t{",
+			"\t\t_context.Set<T>().Update(entity);",
+			"\t}",
+			"}"
+		],
+		"description": "Snippet for GenericRepositoryA class"
+	},
+	"IGenericRepository": {
+		"prefix": "GenerateIGenericRepositoryInInterfaces",
+		"body": [
+			"using System.Linq.Expressions;",
+			"using Core.Entities;",
+			"",
+			"namespace Core.Interfaces;",
+			"",
+			"public interface IGenericRepository<T> where T : BaseEntity",
+			"{",
+			"\tTask<T> GetByIdAsync(int Id);",
+			"\tTask<IEnumerable<T>> GetAllAsync();",
+			"\tIEnumerable<T> Find(Expression<Func<T, bool>> expression);",
+			"\t// Task<(int totalRegistros, IEnumerable<T> registros)> GetAllAsync(int pageIndex, int pageSize, string search);",
+			"\tvoid Add(T entity);",
+			"\tvoid AddRange(IEnumerable<T> entities);",
+			"\tvoid Remove(T entity);",
+			"\tvoid RemoveRange(IEnumerable<T> entities);",
+			"\tvoid Update(T entity);",
+			"}"
+		]
+	},
+	"EntityConfiguration": {
+		"prefix": "GenerateEntityInConfiguration",
+		"body": [
+			"using Core.Entities;",
+			"using Microsoft.EntityFrameworkCore;",
+			"using Microsoft.EntityFrameworkCore.Metadata.Builders;",
+			"",
+			"namespace Infrastructure.Data.Configuration;",
+			"",
+			"public class ${ConfigurationName}Configuration : IEntityTypeConfiguration<${ConfigurationName}>",
+			"{",
+			"\tpublic void Configure(EntityTypeBuilder<${ConfigurationName}> builder)",
+			"\t{",
+			"\t\t//Here you can configure the properties using the object 'Builder'.",
+			"\t}",
+			"}"
+		]
+	},
+	"ToTable": {
+		"prefix": "GenerateToTable",
+		"body": [
+			"builder.ToTable(\"${TableName}\");"
+		],
+		"description": "Snippet to generate ToTable Field"
+	},
+	"PrimaryKey": {
+		"prefix": "GeneratePrimaryKeyAutoIncrement",
+		"body": [
+			"builder.HasKey(x => x.${PrimaryKey});",
+			"builder.Property(x => x.${PrimaryKey});"
+		],
+		"description": "Snippet to generate a Primary Key Field"
+	},
+	"OneToMany": {
+		"prefix": "GenerateForeignKeyOneToMany",
+		"body": [
+			"builder.HasOne(x => x.${ComesFrom}).WithMany(x => x.${ComesTo}).HasForeignKey(x => x.${ForeignKey});"
+		],
+		"description": "Snippet to generate a OneToMany Field"
+	},
+	"Varchar": {
+		"prefix": "GenerateVarchar",
+		"body": [
+			"builder.Property(x => x.${VarcharField}).HasMaxLength(${Length});"
+		],
+		"description": "Snippet to generate a Varchar Field"
+	},
+	"RequiredVarchar": {
+		"prefix": "GenerateRequiredVarchar",
+		"body": [
+			"builder.Property(x => x.${VarcharField}).IsRequired().HasMaxLength(${Length});"
+		],
+		"description": "Snippet to generate a Required Varchar Field"
+	},
+	"Integer": {
+		"prefix": "GenerateInteger",
+		"body": [
+			"builder.Property(x => x.${IntegerField}).HasColumnType(\"int\");"
+		],
+		"description": "Snippet to generate an Integer Field"
+	},
+	"PKNoAutoincrement": {
+		"prefix": "GeneratePrimaryKeyNoAutoincrement",
+		"body": [
+			"builder.HasKey(x => x.${PrimaryKey});",
+			"builder.Property(x => x.${PrimaryKey}).ValueGeneratedNever();"
+		],
+		"description": "Snippet to generate a Primary Key With No Autoincrement Field"
+	},
+	"PKStringAnnotationDB": {
+		"prefix": "GeneratePrimaryKeyAnnotationDataBase",
+		"body": [
+			"builder.Property(x => x.${PrimaryKey}).HasAnnotation(\"MySql:ValueGenerationStrategy\", MySqlValueGenerationStrategy.IdentityColumn).HasMaxLength(${Length});"
+		],
+		"description": "Snippet to generate a String Primary Key with HasAnnotation Field"
+	},
+	"PKStringFluent": {
+		"prefix": "GeneratePrimaryKeyStringFluent",
+		"body": [
+			"builder.HasKey(x => x.${PrimaryKey});",
+			"builder.Property(x => x.${PrimaryKey}).HasMaxLength(${Length});"
+		],
+		"description": "Snnipet to generate a Fluent String Primary Key Field"
+	},
+	"BuilderProgram": {
+		"prefix": "GenerateBuilderAddDbContextInProgram",
+		"body": [
+			"",
+			"builder.Services.AddDbContext<${ContextField}>(optionsBuilder =>",
+			"{",
+			"\tstring connectionString = builder.Configuration.GetConnectionString(\"MySqlConex\");",
+			"\toptionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));",
+			"});",
+			""
+		]
+	},
+	"ProtectedOverride": {
+		"prefix": "GenerateProtectedOverrideInContext",
+		"body": [
+			"protected override void OnModelCreating(ModelBuilder modelBuilder)",
+			"{",
+			"\tbase.OnModelCreating(modelBuilder);",
+			"\tmodelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());",
+			"}",
+		]
+	},
+	"ConectionStringsJson": {
+		"prefix": "GenerateConectionStringsInJson",
+		"body": [
+			",",
+			"\"ConnectionStrings\": {",
+			"\t\"MySqlConex\": \"server=localhost;user=root;password=${SqlPassword};database=${DataBaseName};\"",
+			"}"
+		]
+	},
+	"DbSetContext": {
+		"prefix": "GenerateDbSetInContext",
+		"body": [
+			"public DbSet<${Entity}> ${Entity}s { get; set; }"
+		]
+	},
+	"ConstructorContext": {
+		"prefix": "GenerateConstructorInContext",
+		"body": [
+			"public ${ContextField}(DbContextOptions<${ContextField}> options) : base(options)",
+			"{",
+			"}"
+		]
+	},
+	"BaseController": {
+		"prefix": "GenerateBaseController",
+		"body": [
+			"using Microsoft.AspNetCore.Mvc;",
+			"",
+			"namespace API.Controllers;",
+			"",
+			"[ApiController]",
+			"[Route(\"${Route}[controller]\")]",
+			"public class BaseController : Controller",
+			"{",
+			"\t// Here you can type the information you need",
+			"}"
+		]
+	},
+	"PrivateInterface": {
+		"prefix": "GeneratePrivateInterfaceInUnitOfWork",
+		"body": [
+			"private I${Entity} _${Entity}s;"
+		]
+	},
+	"ConstructorUnitOfWork": {
+		"prefix": "GenerateConstructorInUnitOfWork",
+		"body": [
+			"public UnitOfWork(${ContextField} context)",
+			"{",
+			"_context = context;",
+			"}"
+		]
+	},
+	"PublicInterface": {
+		"prefix": "GeneratePublicInterfaceInUnitOfWork",
+		"body": [
+			"public I${Entity} ${Entity}s",
+            "{",
+            "\tget",
+            "\t{",
+            "\t\tif (_${Entity}s == null)",
+            "\t\t{",
+            "\t\t\t_${Entity}s = new ${Entity}Repository(_context); // Remember putting the base in the repository of this entity",
+            "\t\t}",
+            "\t\treturn _${Entity}s;",
+            "\t}",
+            "}"
+		]
+	},
+	"SaveAsync": {
+		"prefix": "GenerateSaveAsyncInUnitOfWork",
+		"body": [
+			"public Task<int> SaveAsync()",
+			"{",
+			"\treturn _context.SaveChangesAsync();",
+			"}"
+		],
+		"description": "Snippet fot deleting the IUnitOfWork Problem"
+	},
+	"PublicIUnitOfWork": {
+		"prefix": "GeneratePublicInIUnitOfWork",
+		"body": [
+			"public I${Entity} ${Entity}s { get; }"
+		]
+	},
+	"Task": {
+		"prefix": "GenerateTaskInIUnitOfWork",
+		"body": [
+			"Task<int> SaveAsync();"
+		]
+	},
+	"HttpGetIEnumerable": {
+		"prefix": "GenerateHttpGetIEnumerableInController",
+		"body": [
+			"[HttpGet]",
+			"[ProducesResponseType(StatusCodes.Status200OK)]",
+			"[ProducesResponseType(StatusCodes.Status400BadRequest)]",
+			"public async Task<ActionResult<IEnumerable<${Entity}>>> Get()",
+			"{",
+			"\tvar ${entity} = await _IUnitOfWork.${Entity}s.GetAllAsync();",
+			"\treturn Ok(${entity});",
+			"}"
+		]
+	},
+	"HttpGetObjectById": {
+		"prefix": "GenerateHttpGetObjectByIdInController",
+		"body": [
+			"[HttpGet(\"{Id}\")]",
+            "[ProducesResponseType(StatusCodes.Status200OK)]",
+            "[ProducesResponseType(StatusCodes.Status400BadRequest)]",
+            "[ProducesResponseType(StatusCodes.Status404NotFound)]",
+            "public async Task<ActionResult<${Entity}>> Get(int Id)",
+            "{",
+            "\tvar ${entity} = await _IUnitOfWork.${Entity}s.GetByIdAsync(Id);",
+            "\tif (${entity} == null)",
+            "\t{",
+            "\t\treturn NotFound();",
+            "\t}",
+            "\treturn ${entity};",
+            "}"
+		]
+	},
+	"HttpPost": {
+		"prefix": "GenerateHttpPostInController",
+		"body": [
+			"[HttpPost]",
+			"[ProducesResponseType(StatusCodes.Status200OK)]",
+			"[ProducesResponseType(StatusCodes.Status400BadRequest)]",
+			"public async Task<ActionResult<${Entity}>> Post(${Entity} ${entity})",
+			"{",
+			"\tthis._IUnitOfWork.${Entity}s.Add(${entity});",
+			"\tawait _IUnitOfWork.SaveAsync();",
+			"\tif (${entity} == null)",
+			"\t{",
+			"\t\treturn BadRequest();",
+			"\t}",
+			"\treturn CreatedAtAction(nameof(Post), new { id = ${entity}.Id }, ${entity});",
+			"}"
+		],
+		"description": "Crear un método de API POST"
+	},
+	"HttpPut": {
+		"prefix": "GenerateHttpPutInController",
+		"body": [
+			"[HttpPut(\"{id}\")]",
+			"[ProducesResponseType(StatusCodes.Status200OK)]",
+			"[ProducesResponseType(StatusCodes.Status400BadRequest)]",
+			"[ProducesResponseType(StatusCodes.Status404NotFound)]",
+			"public async Task<ActionResult<${Entity}>> Put(int id, [FromBody] ${Entity} ${entity})",
+			"{",
+			"\tif (${entity}.Id == 0)",
+			"\t{",
+			"\t\t${entity}.Id = id;",
+			"\t}",
+			"\tif (${entity}.Id != id)",
+			"\t{",
+			"\t\treturn NotFound();",
+			"\t}",
+			"\t_IUnitOfWork.${Entity}s.Update(${entity});",
+			"\tawait _IUnitOfWork.SaveAsync();",
+			"\treturn ${entity};",
+			"}"
+		],
+		"description": "Actualizar un registro usando el método PUT"
+	},
+	"HttpDelete": {
+		"prefix": "GenerateHttpDeleteInController",
+		"body": [
+			"[HttpDelete(\"{id}\")]",
+			"[ProducesResponseType(StatusCodes.Status204NoContent)]",
+			"[ProducesResponseType(StatusCodes.Status404NotFound)]",
+			"public async Task<IActionResult> Delete(int id)",
+			"{",
+			"\tvar ${entity} = await _IUnitOfWork.${Entity}s.GetByIdAsync(id);",
+			"\tif (${entity} == null)",
+			"\t{",
+			"\t\treturn NotFound();",
+			"\t}",
+			"\t_IUnitOfWork.${Entity}s.Remove(${entity});",
+			"\tawait _IUnitOfWork.SaveAsync();",
+			"\treturn NoContent();",
+			"}"
+		],
+		"description": "Eliminar un registro usando el método DELETE"
+	},
+	"Configure Cors Policy": {
+		"prefix": "GenerateConfigureCorsInApplication",
+		"body": [
+			"public static void ConfigureCors(this IServiceCollection services) => services.AddCors(options =>",
+			"{",
+			"\toptions.AddPolicy(\"CorsPolicy\", builder =>",
+			"\t{",
+			"\t\tbuilder.AllowAnyOrigin() // WithOrigins(\"https://domain.com\")",
+			"\t\t.AllowAnyMethod() // WithMethods(\"GET\", \"POST\")",
+			"\t\t.AllowAnyHeader(); // WithHeaders(\"accept\", \"content-type\")",
+			"\t});",
+			"}); // Remember to put 'static' on the class and to add builder.Services.AddApplicationServices(); to Program.cs and builder.Services.ConfigureCors(); and app.UseCors(\"CorsPolicy\");",
+			"",
+			"public static void AddApplicationServices(this IServiceCollection services)",
+			"{",
+			"\tservices.AddScoped<IUnitOfWork, UnitOfWork>();",
+			"}"
+		],
+		"description": "Configurar una política de CORS en ConfigureServices y Agregar servicios de aplicación al contenedor de dependencias"
+	},
+	"AddressProperties": {
+		"prefix": "GenerateAddressProperties",
+		"body": [
+			"public string TipoVia { get; set; }",
+			"public sbyte NumeroPrincipal { get; set; }",
+			"public string LetraPrincipal { get; set; }",
+			"public string Bis { get; set; }",
+			"public string LetraSecundaria { get; set; }",
+			"public string CardinalPrimario { get; set; }",
+			"public sbyte NumeroSecundario { get; set; }",
+			"public string LetraTerciaria { get; set; }",
+			"public sbyte NumeroTerciario { get; set; }",
+			"public string CardinalSecundario { get; set; }",
+			"public string Complemento { get; set; }",
+			"public string CodigoPostal { get; set; }"
+		],
+		"description": "Propiedades para una clase de dirección"
+	}
+	
+}
