@@ -18,5 +18,5 @@ public class Cliente : BaseEntity
     public ICollection<ClienteTelefono> ClienteTelefonos{ get; set; }
     public ICollection<Mascota> Mascotas{ get; set; }
     public ICollection<Cita> Citas { get; set; }
-    public Ciudad Ciudades { get; set; } //Revisar si se debe llamar entidad
+    // public Ciudad Ciudades { get; set; } //Revisar si se debe llamar entidad
 }
