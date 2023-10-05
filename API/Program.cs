@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.ConfigurationRatelimiting();//
 builder.Services.ConfigureCors();
+builder.Services.AddApplicationServices();
 builder.Services.AddAutoMapper(Assembly.GetEntryAssembly());//Es propiamente de C#, el Assembly.GetEntreAssembly se utiliza para poder obtener la ruta de donde se está ejecutan el ensamblado el DLL en este caso el proyecto.
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreRateLimit;
+using Core.Interfaces;
+using Infrastructure.UnitOfWork;
 
 namespace API.Extensions;
 public static class ApplicationServiceExtension //Agregar el STATIC   IMPORTANTE
@@ -21,6 +23,14 @@ public static class ApplicationServiceExtension //Agregar el STATIC   IMPORTANTE
     // {
     //     services.AddScoped<IUnitOfWork, UnitOfWork>();
     // }
+
+
+    //Agregamos le metodo de extensión que nos va a permitir la UnitOfWork al scope del EntityFramework
+    //Si no tuviera una UnitOfWork tendría que hacer por cada repositorio, tendría que hacer este proceso. Aca es donde se va a crear una instancia por cada una de ellas la usemos o no la usemos. Acá estamos haciendo una sola instancia que es la UnitOfWork por medio de esa unidad de trabajo hacemos instancias unicas de las otras instancias.
+    public static void AddApplicationServices(this IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+    }
     public static void ConfigurationRatelimiting (this IServiceCollection services)
     {//Vamos a poder determinar en que momento vamos a establecer ese rate limit atraves de los encabezados en un expresion y poder determinar dentro de header de la petición cuantas nos quedan disponibles.
         services.AddMemoryCache(); //Aministrar primero memoria cache
