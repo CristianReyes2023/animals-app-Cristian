@@ -19,6 +19,7 @@ public class AnimalsContext : DbContext
     public DbSet<ClienteDireccion> ClienteDirecciones { get; set; }
     public DbSet<ClienteTelefono> ClienteTelefonos { get; set; }
     public DbSet<Cita> Citas { get; set; }
+    public object Pais { get; internal set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {//Metodo importante para definir la estructura de nuestras tablas
