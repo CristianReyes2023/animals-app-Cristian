@@ -15,7 +15,7 @@ namespace Infrastructure.Repositories
 
         public PaisRepository(AnimalsContext context) : base(context)
         {
-            _context = context;
+            _context = context; 
         }
         public override async Task<IEnumerable<Pais>> GetAllAsync()//Este codigo sobreescribe este metodo presente en GenericRepository 
         //Este codigo indica que cuando liste los paises que incluya los departamentos y dentro de los departamentos me incluya las ciudades que esten asociadas a determinado departamento

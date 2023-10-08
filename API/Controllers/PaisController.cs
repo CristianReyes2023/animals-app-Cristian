@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace API.Controllers
+
+//Los CONTROLADORES: Nos van a permitir definir cada uno de esos endpoints en los cuales nosotros le vamos a hacer peticiones en un momento determinado.
 {
     // [ApiController]
     // [Route("api/[controller]")]
