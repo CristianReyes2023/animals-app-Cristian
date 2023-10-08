@@ -9,7 +9,7 @@ using Core.Entities;
 namespace API.Profiles;
 public class MappingProfiles : Profile
 {
-    protected MappingProfiles()
+    public MappingProfiles()
     {
         CreateMap<Pais,PaisDto>().ReverseMap(); //Tome la entidad Pais y mappeela de acuerdo a la estructura del DTO esto permite de entidad a DTO y de DTO a entidadjj
     }
