@@ -41,8 +41,9 @@ if (app.Environment.IsDevelopment())
 //Se necesita para completar nuestra configuración de dependencia, llamamos nuestra configuración de Cors y Ip en este caso. Y eso lo hacemos atraves niderwork
 
 app.UseCors("CorsPolicy");
-app.UseHttpsRedirection();
 app.UseIpRateLimiting();
+app.UseHttpsRedirection();
+
 
 app.UseAuthorization();
 

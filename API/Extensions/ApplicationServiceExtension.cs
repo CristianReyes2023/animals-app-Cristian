@@ -41,7 +41,7 @@ public static class ApplicationServiceExtension //Agregar el STATIC   IMPORTANTE
             options.EnableEndpointRateLimiting =true;
             options.StackBlockedRequests = false;
             options.HttpStatusCode = 429;
-            options.RealIpHeader = "X-Real-IP";
+            options.RealIpHeader = "X-Real-IP";//Permite establer encabezados y poder determinadar dentro de header de la petición cuantas peticiones nos queda disponibles
             options.GeneralRules = new List<RateLimitRule>
             {
                 new RateLimitRule
@@ -52,5 +52,6 @@ public static class ApplicationServiceExtension //Agregar el STATIC   IMPORTANTE
                 }
             };
         });
+        
     }
 }
