@@ -1,4 +1,5 @@
 
+using System.Reflection.Metadata.Ecma335;
 using API.Dtos;
 using AutoMapper;
 using Core.Entities;
@@ -21,7 +22,7 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<DepartamentoDto>>> Get()
-        {
+        {//Task: Los permite trabajar en c# o .net con tareas asincronas, te permite un uso más flexible (en que status está) y permitrabajar con expresiones landas de manera muy practica
             var departamentos = await _unitOfWork.Departamentos.GetAllAsync();
             // return Ok(entity);
             return _mapper.Map<List<DepartamentoDto>>(departamentos); 
@@ -49,6 +50,14 @@ namespace API.Controllers
         {
             if(departamentoDto == null)
                 return NotFound();
+            if(departamentoDto.Id == 0)
+            {
+                departamentoDto.Id = id;
+            } 
+            if(departamentoDto.Id != id)
+            {
+                return BadRequest();
+            }
             var departamento = _mapper.Map<Departamento>(departamentoDto);
             _unitOfWork.Departamentos.Update(departamento);
             await _unitOfWork.SaveAsync();

@@ -34,12 +34,16 @@ namespace API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<PaisDto>>> Get()
-        {
+        {/*
+        public async Task<ActionResult<IEnumerable<MascotaDto>>> Get(): Esta es la firma del método. Indica que el método es público, asincrónico (async), devuelve una tarea (Task), y que la respuesta será de tipo ActionResult<IEnumerable<MascotaDto>>.
+        ActionResult es una clase que representa el resultado de una acción en un controlador web. Puede contener diferentes tipos de respuestas HTTP, como 200 OK, 404 Not Found, etc.
+        IEnumerable<MascotaDto> indica que el método devolverá una secuencia de objetos de tipo MascotaDto.
+        */
             var paises = await _unitOfWork.Paises.GetAllAsync();
             // return Ok(entity);
-            return _mapper.Map<List<PaisDto>>(paises); 
+            return _mapper.Map<List<PaisDto>>(paises);
         }
-        [HttpPost] 
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]//Insertado correctamente
         [ProducesResponseType(StatusCodes.Status400BadRequest)]//La solicitud fue errada  
         public async Task<ActionResult<Pais>> Post(PaisDto paisDto)//Recibe dentro de sus parametros de tipo Dto (Id y nombre) 
@@ -62,6 +66,14 @@ namespace API.Controllers
         {
             if(paisDto == null)
                 return NotFound();
+            if(paisDto.Id == 0)
+            {
+                paisDto.Id = id;
+            } 
+            if(paisDto.Id != id)
+            {
+                return BadRequest();
+            }
             var paises = _mapper.Map<Pais>(paisDto);//Conversión de Dto a la entidad paises
             _unitOfWork.Paises.Update(paises);//Ejecutamos de manera temporal la actualización
             await _unitOfWork.SaveAsync();//Por ultimo almacenamos la información en la base de datos 

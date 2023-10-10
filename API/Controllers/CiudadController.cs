@@ -49,6 +49,14 @@ namespace API.Controllers
         {
             if(ciudadDto == null)
                 return NotFound();
+            if(ciudadDto.Id == 0)
+            {
+                ciudadDto.Id = id;
+            } 
+            if(ciudadDto.Id != id)
+            {
+                return BadRequest();
+            }
             var ciudad = _mapper.Map<Ciudad>(ciudadDto);
             _unitOfWork.Ciudades.Update(ciudad);
             await _unitOfWork.SaveAsync();

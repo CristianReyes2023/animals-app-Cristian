@@ -8,7 +8,7 @@ using Infrastructure.Data;
 using Infrastructure.Repositories;
 
 namespace Infrastructure.UnitOfWork
-{//Está es una implementación de la unidad de trabajo (IUnitOfWork)
+{//Está es una implementación de la unidad de trabajo (IUnitOfWork) o de las interfaces 
     public class UnitOfWork : IUnitOfWork,IDisposable
     {
         private ICita _citas;
@@ -29,6 +29,7 @@ namespace Infrastructure.UnitOfWork
             _context = context;
         }
 
+        //Construcción de metodos para implementar la clase
         public ICita Citas
         {
             get

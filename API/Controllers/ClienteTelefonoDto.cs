@@ -49,6 +49,14 @@ namespace API.Controllers
         {
             if(clienteTelefonoDto == null)
                 return NotFound();
+            if(clienteTelefonoDto.Id == 0)
+            {
+                clienteTelefonoDto.Id = id;
+            } 
+            if(clienteTelefonoDto.Id != id)
+            {
+                return BadRequest();
+            }
             var clientetelefono = _mapper.Map<ClienteTelefono>(clienteTelefonoDto);
             _unitOfWork.ClienteTelefonos.Update(clientetelefono);
             await _unitOfWork.SaveAsync();

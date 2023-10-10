@@ -49,6 +49,14 @@ namespace API.Controllers
         {
             if(mascotaDto == null)
                 return NotFound();
+            if(mascotaDto.Id == 0)
+            {
+                mascotaDto.Id = id;
+            } 
+            if(mascotaDto.Id != id)
+            {
+                return BadRequest();
+            }
             var mascota = _mapper.Map<Mascota>(mascotaDto);
             _unitOfWork.Mascotas.Update(mascota);
             await _unitOfWork.SaveAsync();

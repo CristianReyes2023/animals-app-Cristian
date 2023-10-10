@@ -49,6 +49,14 @@ namespace API.Controllers
         {
             if(razaDto == null)
                 return NotFound();
+            if(razaDto.Id == 0)
+            {
+                razaDto.Id = id;
+            } 
+            if(razaDto.Id != id)
+            {
+                return BadRequest();
+            }
             var raza = _mapper.Map<Raza>(razaDto);
             _unitOfWork.Razas.Update(raza);
             await _unitOfWork.SaveAsync();

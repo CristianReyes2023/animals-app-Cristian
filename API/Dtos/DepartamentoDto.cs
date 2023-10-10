@@ -10,6 +10,6 @@ namespace API.Dtos
     {
         public int Id { get; set; }
         public string NombreDep {get;set;}
-        public Pais Pais { get; set; }
+        public PaisDto Pais { get; set; }
     }
 }

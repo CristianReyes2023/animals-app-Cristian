@@ -49,6 +49,14 @@ namespace API.Controllers
         {
             if(citaDto == null)
                 return NotFound();
+            if(citaDto.Id == 0)
+            {
+                citaDto.Id = id;
+            } 
+            if(citaDto.Id != id)
+            {
+                return BadRequest();
+            }
             var citas = _mapper.Map<Cita>(citaDto);
             _unitOfWork.Citas.Update(citas);
             await _unitOfWork.SaveAsync();
