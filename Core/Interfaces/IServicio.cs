@@ -7,5 +7,5 @@ using Core.Entities;
 namespace Core.Interfaces;
 public interface IServicio : IGenericRepository<Servicio>
 {
-
+    void Remove(Task<Servicio> servicio);
 }

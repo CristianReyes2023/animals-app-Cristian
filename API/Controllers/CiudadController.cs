@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class CiudadContoller : BaseControllerApi
+    public class CiudadController : BaseControllerApi
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public CiudadContoller(IUnitOfWork unitOfWork, IMapper mapper)
+        public CiudadController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;

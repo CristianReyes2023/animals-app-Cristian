@@ -11,7 +11,7 @@ public class MappingProfiles : Profile
 {
     public MappingProfiles()
     {
-        CreateMap<Cita,CitaDto>().ReverseMap(); //Tome la entidad Pais y mappeela de acuerdo a la estructura del DTO esto permite de entidad a DTO y de DTO a entidadjj
+        CreateMap<Cita,CitaDto>().ReverseMap(); //Tome la entidad Pais y mappeela de acuerdo a la estructura del DTO esto permite de entidad a DTO y de DTO a entidad
         CreateMap<Ciudad,CiudadDto>().ReverseMap();
         CreateMap<Cliente,ClienteDto>().ReverseMap();
         CreateMap<ClienteTelefono,ClienteTelefonoDto>().ReverseMap();

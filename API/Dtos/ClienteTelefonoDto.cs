@@ -9,6 +9,7 @@ namespace API.Dtos
     {
         public int Id { get; set; }
         public string Numero { get; set; }
-        public ClienteDto Cliente { get; set; }
+        public int IdClienteFk {get;set;}
+        // public ClienteDto Cliente { get; set; }
     }
 }

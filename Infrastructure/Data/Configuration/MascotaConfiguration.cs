@@ -18,7 +18,7 @@ public class MascotaConfiguration : IEntityTypeConfiguration<Mascota>
 
         builder.HasOne(x => x.Razas).WithMany(x => x.Mascotas).HasForeignKey(x => x.IdRazaFk);
 
-        builder.Property(x => x.FechaNacimiento).HasColumnType("datetime");
+        builder.Property(x => x.FechaNacimiento).HasColumnType("date");
         builder.HasOne(x => x.Clientes).WithMany(x => x.Mascotas).HasForeignKey(x => x.IdClienteFk);
     }
 }

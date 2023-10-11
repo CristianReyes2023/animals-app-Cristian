@@ -14,8 +14,7 @@ public class Mascota : BaseEntity
     [Required]
     public int IdRazaFk { get; set; }
     public Raza Razas { get; set; } //Revisar si va raza o razas
-    [Required]
-    public DateTime FechaNacimiento { get; set; }
+    public DateOnly FechaNacimiento { get; set; }
     [Required]
     public int IdClienteFk { get; set; }
     public Cliente Clientes { get; set; }
